@@ -39,7 +39,10 @@ export const App = () => {
     ]);
   };
 
-  const searchContact = e => setFilter(e.target.value);
+  const searchContact = e => {
+    setFilter(e.target.value);
+    console.log(e.target.value);
+  };
 
   const filterContacts = items =>
     items.filter(item =>

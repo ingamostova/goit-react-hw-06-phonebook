@@ -3,6 +3,8 @@ import { Formik, ErrorMessage } from 'formik';
 import * as yup from 'yup';
 import 'yup-phone';
 import { Forma, Input, Label, Error, Btn } from './ContactForm.styled';
+import { useDispatch } from 'react-redux';
+import { addContact } from 'redux/contactsSlice';
 
 const schema = yup.object().shape({
   name: yup.string().min(3, 'Too short!').required(),
@@ -15,9 +17,12 @@ const initialValues = {
 };
 
 export const ContactForm = ({ onSubmit }) => {
+  const dispatch = useDispatch();
+
   const handleSubmit = (values, { resetForm }) => {
     const { name, number } = values;
-    onSubmit(name, number);
+    dispatch(addContact(name, number));
+    // onSubmit(name, number);
     resetForm();
   };
 
