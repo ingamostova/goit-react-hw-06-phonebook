@@ -1,7 +1,5 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { nanoid } from "nanoid";
-import { persistReducer } from 'redux-persist'
-import storage from 'redux-persist/lib/storage'
+import { createSlice } from '@reduxjs/toolkit';
+import { nanoid } from 'nanoid';
 
 const defaultContacts = [
   { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
@@ -10,8 +8,8 @@ const defaultContacts = [
   { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
 ];
 
-const contactsSlice = createSlice({
-  name: "contacts",
+export const contactsSlice = createSlice({
+  name: 'contacts',
   initialState: defaultContacts,
   reducers: {
     addContact: {
@@ -21,13 +19,14 @@ const contactsSlice = createSlice({
       prepare(name, number) {
         return {
           payload: {
-                id: nanoid(),
-                name,
-              number,
+            id: nanoid(),
+            name,
+            number,
           },
         };
       },
     },
+
     deleteContact(state, action) {
       const index = state.findIndex(contact => contact.id === action.payload);
       state.splice(index, 1);
@@ -35,28 +34,4 @@ const contactsSlice = createSlice({
   },
 });
 
-// const SetTransform = createTransform(
-//   // transform state on its way to being serialized and persisted.
-//   (inboundState, key) => {
-//     // convert mySet to an Array.
-//     return { ...inboundState, mySet: [...inboundState.mySet] };
-//   },
-//   // transform state being rehydrated
-//   (outboundState, key) => {
-//     // convert mySet back to a Set.
-//     return { ...outboundState, mySet: new Set(outboundState.mySet) };
-//   },
-//   // define which reducers this transform gets called for.
-//   { whitelist: ['contactsReducer'] }
-// );
-
-const persistConfig = {
-  key: 'root',
-    storage,
-}
-
-export const contactsReducer = persistReducer(persistConfig, contactsSlice.reducer);
-
 export const { addContact, deleteContact } = contactsSlice.actions;
-
- 
